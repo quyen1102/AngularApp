@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero';
-import { HEROES } from '../mock_heroes';
+import { HEROES } from '../mock_heros';
 import { HeroService } from '../hero.service';
 import { MessageService } from '../message.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-heroes',
@@ -18,6 +19,7 @@ export class HeroesComponent implements OnInit {
   };
   heroes: Hero[] = [];
   constructor(
+    private router: Router,
     private heroService: HeroService,
     private messageService: MessageService
   ) {}
@@ -25,6 +27,7 @@ export class HeroesComponent implements OnInit {
     this.heroService.getHeroes().subscribe((heroes) => (this.heroes = heroes));
   }
   onSelect(hero: Hero): void {
+    this.router.navigateByUrl(`/detail/${hero.id}`);
     this.selectedHero = hero;
     this.messageService.add(`HeroesComponent: Selected hero id=${hero.id}`);
   }
